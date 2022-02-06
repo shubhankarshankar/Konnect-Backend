@@ -5,14 +5,14 @@ const jwt = require("jsonwebtoken");
 //Handle Errors
 const handleErrors = (err) => {
   let errors = {
-    name: "",
-    email: "",
-    password: "",
-    phone: "",
-    dob: "",
-    gender: "",
-    address: "",
-    role: "",
+    name: null,
+    email: null,
+    password: null,
+    phone: null,
+    dob: null,
+    gender: null,
+    address: null,
+    role: null,
   };
 
   if (err.code === 11000) {
@@ -42,6 +42,7 @@ module.exports.login = async (req, res) => {
       return res.status(401).json({ err: "Invalid Credentials" });
 
     const loggedInUser = {
+      cid: loggingUser._id,
       name: loggingUser.name,
       email: loggingUser.email,
       phone: loggingUser.phone,
@@ -51,9 +52,9 @@ module.exports.login = async (req, res) => {
       role: loggingUser.role,
     };
 
-    const token = jwt.sign({ _id: loggingUser._id }, process.env.TOKEN_SECRET);
-    res.header("auth-token", token);
-    return res.send(token);
+    const token = jwt.sign({ loggedInUser }, process.env.TOKEN_SECRET);
+
+    return res.json({ token });
   } catch (err) {
     return res.status(400).json({ err: "Error Occured" });
   }
@@ -77,5 +78,13 @@ module.exports.register = async (req, res) => {
   } catch (err) {
     const errors = handleErrors(err);
     return res.status(400).json(errors);
+  }
+};
+
+module.exports.checkAuth = async (req, res) => {
+  try {
+    return res.status(200).json({ auth: true });
+  } catch (err) {
+    return res.status(401).json({ auth: false });
   }
 };

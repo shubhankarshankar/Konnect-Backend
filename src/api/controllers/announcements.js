@@ -10,6 +10,18 @@ module.exports.announcements_getAll = async (req, res) => {
   }
 };
 
+//GET ANNOUNCEMENT BY ID
+module.exports.announcements_getById = async (req, res) => {
+  try {
+    const announcement = await Announcement.findById(req.params.id);
+    if (!announcement)
+      return res.status(400).json({ message: "No Announcement Found!" });
+    return res.status(200).json(announcement);
+  } catch (err) {
+    return res.status(400).json({ message: err });
+  }
+};
+
 // MAKE A NEW ANNOUNCEMENT
 module.exports.announcements_post = async (req, res) => {
   const announcement = new Announcement({

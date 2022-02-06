@@ -33,12 +33,12 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, "Password is required."],
+    default: "Test@123",
     minlength: [8, "Password should be at least 8 characters long."],
     validate: [
       function (v) {
         var re =
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$/;
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,32}$/;
         return re.test(v);
       },
       "Password is not strong enough.",

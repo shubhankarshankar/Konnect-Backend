@@ -8,7 +8,7 @@ module.exports.student_get = async (req, res) => {
       return res.status(400).json({ message: "No Students Found!" });
     return res.status(200).json(studentsAll);
   } catch (err) {
-    return res(400).json({ message: err });
+    return res.status(400).json({ message: err });
   }
 };
 
@@ -19,7 +19,7 @@ module.exports.student_getById = async (req, res) => {
     if (!student) return res.status(400).json({ message: "No Student Found!" });
     return res.status(200).json(student);
   } catch (err) {
-    return res(400).json({ message: err });
+    return res.status(400).json({ message: err });
   }
 };
 

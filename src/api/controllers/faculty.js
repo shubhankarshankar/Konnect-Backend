@@ -1,5 +1,31 @@
 const User = require("../../models/user");
 
+const handleErrors = (err) => {
+  let errors = {
+    name: null,
+    email: null,
+    password: null,
+    phone: null,
+    dob: null,
+    gender: null,
+    address: null,
+    role: null,
+  };
+
+  if (err.code === 11000) {
+    errors.email = "This email already exists.";
+    return errors;
+  }
+
+  if (err.message.includes("user validation failed")) {
+    Object.values(err.errors).forEach(({ properties }) => {
+      errors[properties.path] = properties.message;
+    });
+  }
+
+  return errors;
+};
+
 //GET ALL FACULTIES
 module.exports.faculty_get = async (req, res) => {
   try {
@@ -8,7 +34,7 @@ module.exports.faculty_get = async (req, res) => {
       return res.status(400).json({ message: "No Faculties Found!" });
     return res.status(200).json(facultiesAll);
   } catch (err) {
-    return res(400).json({ message: err });
+    return res.status(400).json({ message: err });
   }
 };
 
@@ -19,7 +45,36 @@ module.exports.faculty_getById = async (req, res) => {
     if (!faculty) return res.status(400).json({ message: "No Faculty Found!" });
     return res.status(200).json(faculty);
   } catch (err) {
-    return res(400).json({ message: err });
+    return res.status(400).json({ message: err });
+  }
+};
+
+// ADD A FACULTY
+module.exports.faculty_create = async (req, res) => {
+  const user = new User({
+    name: req.body.name,
+    email: req.body.email,
+    phone: req.body.phone,
+    gender: req.body.gender,
+    dob: req.body.dob,
+    address: req.body.address,
+    role: "Faculty",
+  });
+
+  try {
+    const addedFaculty = await user.save();
+    return res.status(200).json(addedFaculty);
+  } catch (err) {
+    const errors = handleErrors(err);
+    return res.status(400).json(errors);
+  }
+};
+
+module.exports.checkAuth = async (req, res) => {
+  try {
+    return res.status(200).json({ auth: true });
+  } catch (err) {
+    return res.status(401).json({ auth: false });
   }
 };
 
