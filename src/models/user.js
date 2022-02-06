@@ -53,6 +53,7 @@ const userSchema = new mongoose.Schema({
     default: "Student",
     enum: ["Admin", "Student", "Faculty"],
   },
+  marks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Marks", default: [] }],
 });
 
 userSchema.pre("save", async function (next) {
@@ -61,4 +62,4 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model("User", userSchema);
