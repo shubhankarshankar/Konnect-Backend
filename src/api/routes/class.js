@@ -8,6 +8,11 @@ router.get("/details", verifyToken, classController.class_getAllDetails);
 router.get("/details/:id", verifyToken, classController.class_getDetailsById);
 router.get("/faculty/:id", verifyToken, classController.class_getByFaculty);
 router.get("/count", verifyToken, classController.class_getCount);
+router.get(
+  "/count/:facId",
+  verifyToken,
+  classController.class_getCountByFaculty
+);
 router.post("/", verifyToken, classController.class_add);
 router.delete("/:id", verifyToken, classController.class_delete);
 

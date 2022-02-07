@@ -77,3 +77,16 @@ module.exports.class_delete = async (req, res) => {
     return res.status(400).json(err);
   }
 };
+
+//GET NUMBER OF CLASSES FOR A PARTICULAR FACULTY
+module.exports.class_getCountByFaculty = async (req, res) => {
+  try {
+    const facultyCount = await Classes.countDocuments({
+      faculty: req.params.facId,
+    });
+    return res.status(200).json({ count: facultyCount });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json(err);
+  }
+};
