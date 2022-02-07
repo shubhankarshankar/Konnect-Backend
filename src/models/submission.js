@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const submissionSchema = mongoose.Schema({
-  assignmentId: { type: mongoose.Schema.Types.ObjectId, ref: "Assignment" },
+  classId: { type: mongoose.Schema.Types.ObjectId, ref: "Class" },
   studentId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  uploadPath: { type: String, required: true },
+  answerUploadPath: { type: String, required: true },
 });
 
 module.exports = mongoose.model("Submission", submissionSchema);

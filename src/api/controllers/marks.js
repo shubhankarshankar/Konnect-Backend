@@ -48,6 +48,7 @@ module.exports.marks_add = async (req, res) => {
   }
 };
 
+// GET MARKS FOR A PARTICULAR STUDENT
 module.exports.marks_getDetailedMarksByStudentId = async (req, res) => {
   User.findById(req.params.id)
     .populate({
