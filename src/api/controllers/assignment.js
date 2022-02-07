@@ -138,6 +138,19 @@ module.exports.assignment_getSubmission = async (req, res) => {
   }
 };
 
+// GET NUMBER OF ASSIGNMENTS BY STUDENT ID
+module.exports.assignment_getCount = async (req, res) => {
+  try {
+    const assignmentCount = await Assignment.countDocuments({
+      studentId: req.params.stuId,
+    });
+    return res.status(200).json({ count: assignmentCount });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json(err);
+  }
+};
+
 // module.exports.assignment_uploadQuestion = async (req, res) => {
 //   try {
 //     const classroom = await Classes.findById(req.params.classId);

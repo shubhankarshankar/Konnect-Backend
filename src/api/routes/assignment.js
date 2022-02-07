@@ -28,5 +28,10 @@ router.get(
   verifyToken,
   assigmentController.assignment_getSubmission
 );
+router.get(
+  "/count/:stuId",
+  verifyToken,
+  assigmentController.assignment_getCount
+);
 
 module.exports = router;
